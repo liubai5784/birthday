@@ -36,12 +36,15 @@ body{
 #bg.show{opacity:1;}
 
 .container{
-  width:90%;
-  max-width:420px;
-  padding:20px;
-  background:rgba(255,255,255,0.1);
-  border-radius:16px;
-  backdrop-filter:blur(10px);
+  width:min(90vw,420px);
+  padding:24px;
+  border-radius:18px;
+
+  background: rgba(0,0,0,0.35); /* 半透明黑框 */
+  border: 1px solid rgba(255,255,255,0.15); /* 细边框 */
+
+  /* ❌ 去掉模糊 */
+  backdrop-filter: none;
 }
 
 .avatar{
