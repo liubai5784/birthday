@@ -75,7 +75,11 @@ button{
 #voiceBtn{
   display:none;
 }
-
+  
+#bgmBtn{
+  display:none;
+}
+  
 </style>
 </head>
 
@@ -128,7 +132,7 @@ function start(){
   document.getElementById('bg').classList.add('show');
   document.getElementById('text').classList.add('show');
   document.getElementById('final').classList.add('show');
-  
+  document.getElementById('bgmBtn').style.display='inline-block';
 
   document.getElementById('startBtn').style.display='none';
 
