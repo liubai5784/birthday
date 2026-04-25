@@ -21,7 +21,7 @@ body{
   overflow:hidden;
 }
 
-/* 背景 */
+/* 背景（修复稳定显示） */
 #bg{
   position:fixed;
   inset:0;
@@ -29,12 +29,126 @@ body{
   height:100%;
   object-fit:cover;
   opacity:0;
-  transition:1.5s;
+  transition:opacity 1.5s ease;
   z-index:-1;
 }
 
-#bg.show{opacity:1;}
+#bg.show{
+  opacity:1;
+}
 
+/* 卡片 */
+.container{
+  width:min(90vw,420px);
+  padding:22px;
+  border-radius:18px;
+
+  background:rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.15);
+}
+
+/* 头像 */
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+  margin:10px auto;
+  display:block;
+}
+
+/* 按钮 */
+button{
+  margin-top:12px;
+  padding:10px 18px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  background:white;
+  color:#333;
+}
+
+/* 文本 */
+.text,.final{
+  opacity:0;
+  transform:translateY(8px);
+  transition:1s ease;
+  margin-top:10px;
+}
+
+.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.final{
+  font-size:18px;
+  margin-top:12px;
+}
+
+/* 防止花屏 */
+img{
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 背景 -->
+<img id="bg" src="flowers.jpg" alt="bg">
+
+<div class="container">
+  <h1>理理老师</h1>
+
+  <img class="avatar" src="avatar.jpg" alt="avatar">
+
+  <button id="btn" onclick="start()">点一下</button>
+
+  <div class="text" id="text">
+    希望你天天开心 😉
+  </div>
+
+  <div class="final" id="final">
+    生日快乐！
+  </div>
+</div>
+
+<!-- 🎵 更稳定音频（带fallback机制） -->
+<audio id="music" preload="auto" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/08/Happy-birthday-instrumental.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function start(){
+  const bg = document.getElementById('bg');
+  const text = document.getElementById('text');
+  const final = document.getElementById('final');
+  const btn = document.getElementById('btn');
+  const music = document.getElementById('music');
+
+  // 显示背景
+  bg.classList.add('show');
+
+  // 显示文字
+  text.classList.add('show');
+  final.classList.add('show');
+
+  // 隐藏按钮
+  btn.style.display = 'none';
+
+  // 🎵 音乐（跨设备兼容）
+  music.load();
+  music.play().catch(() => {
+    console.log("当前设备禁止自动播放");
+  });
+}
+</script>
+
+</body>
+</html>
 .container{
   width:min(90vw,420px);
   padding:24px;
