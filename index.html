@@ -93,12 +93,18 @@ button{
   <div class="text" id="text">希望你天天开心 🌼</div>
   <div class="final" id="final">生日快乐！</div>
 
-  <!-- 🎤 第二个按钮 -->
+  <!-- 🎤 祝福按钮 -->
   <button id="voiceBtn" onclick="playVoice()">听祝福 🎤</button>
 </div>
 
-<audio id="music">
+<!-- 🎧 背景音乐（自动播放循环） -->
+<audio id="bgm" autoplay loop>
   <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🎤 祝福音频 -->
+<audio id="voice">
+  <source src="zf.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -109,19 +115,21 @@ function start(){
 
   document.getElementById('startBtn').style.display='none';
 
-  // 显示第二按钮
   setTimeout(()=>{
     document.getElementById('voiceBtn').style.display='inline-block';
   },1200);
+
+  // 背景音乐（防止被拦截）
+  const bgm = document.getElementById('bgm');
+  bgm.play().catch(()=>{});
 }
 
 function playVoice(){
-  const music = document.getElementById('music');
+  const voice = document.getElementById('voice');
 
-  // 每次从头播放（不叠加）
-  music.pause();
-  music.currentTime = 0;
-  music.play().catch(()=>{});
+  voice.pause();
+  voice.currentTime = 0;
+  voice.play().catch(()=>{});
 }
 </script>
 
