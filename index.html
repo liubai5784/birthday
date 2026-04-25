@@ -1,15 +1,20 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>生日快乐</title>
 
 <style>
+/* ====== 全局适配 ====== */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,11 +24,10 @@ body {
   overflow: hidden;
 }
 
-/* 花背景（克制版） */
+/* ====== 背景 ====== */
 .bg {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: url('flowers.jpg') center/cover no-repeat;
   opacity: 0;
   transition: opacity 1.5s ease;
@@ -32,70 +36,79 @@ body {
 
 .bg.show { opacity: 1; }
 
-/* 少量花瓣（降低密度） */
+/* ====== 容器（自适应屏幕） ====== */
+.container {
+  width: min(90vw, 420px);
+  padding: clamp(16px, 4vw, 32px);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px);
+}
+
+h1 {
+  font-size: clamp(20px, 5vw, 32px);
+  margin-bottom: 10px;
+}
+
+/* ====== 头像（修复比例问题） ====== */
+.avatar {
+  width: clamp(60px, 18vw, 90px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  margin: 10px auto;
+  display: block;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* ====== 按钮 ====== */
+button {
+  margin-top: 16px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 999px;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ====== 文本 ====== */
+.text {
+  margin-top: 18px;
+  opacity: 0;
+  transition: opacity 1s ease;
+  font-size: clamp(14px, 3.8vw, 16px);
+  line-height: 1.6;
+}
+
+.text.show { opacity: 1; }
+
+.final {
+  margin-top: 14px;
+  opacity: 0;
+  font-size: clamp(16px, 4.5vw, 20px);
+  transition: opacity 1.5s ease;
+}
+
+.final.show { opacity: 1; }
+
+/* ====== 花瓣（轻量适配） ====== */
 .petal {
   position: fixed;
   top: -10px;
-  width: 10px;
-  height: 10px;
-  background: rgba(255,192,203,0.7);
+  width: 8px;
+  height: 8px;
+  background: rgba(255,192,203,0.6);
   border-radius: 50% 50% 50% 0;
   animation: fall linear infinite;
+  pointer-events: none;
 }
 
 @keyframes fall {
   to {
     transform: translateY(110vh) rotate(360deg);
   }
-}
-
-.container {
-  padding: 30px;
-}
-
-h1 {
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-
-.avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  margin: 10px auto;
-  display: block;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 22px;
-  border: none;
-  border-radius: 20px;
-  background: white;
-  color: #333;
-  cursor: pointer;
-}
-
-.text {
-  margin-top: 20px;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-.text.show { opacity: 1; }
-
-/* 最后一行（不夸张版） */
-.final {
-  margin-top: 20px;
-  opacity: 0;
-  font-size: 1.2em;
-  transition: opacity 1.5s ease;
-}
-
-.final.show { opacity: 1; }
-
-@media (max-width:600px) {
-  h1 { font-size: 1.6em; }
 }
 
 </style>
@@ -134,17 +147,20 @@ function start() {
 
   createPetals();
 
-  setTimeout(()=>{
+  setTimeout(() => {
     document.getElementById('final').classList.add('show');
-  },1500);
+  }, 1500);
 }
 
-function createPetals(){
-  for(let i=0;i<10;i++){  // 数量减少
-    const p=document.createElement('div');
-    p.className='petal';
-    p.style.left=Math.random()*100+'vw';
-    p.style.animationDuration=(4+Math.random()*4)+'s';
+function createPetals() {
+  const count = window.innerWidth < 600 ? 8 : 12;
+
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (4 + Math.random() * 4) + 's';
+    p.style.opacity = Math.random() * 0.5 + 0.3;
     document.body.appendChild(p);
   }
 }
