@@ -94,6 +94,7 @@ button{
   <div class="final" id="final">生日快乐！</div>
 
   <!-- 🎤 祝福按钮 -->
+  <button id="bgmBtn" onclick="toggleBGM()">暂停音乐 🔊</button>
   <button id="voiceBtn" onclick="playVoice()">听祝福 🎤</button>
 </div>
 
@@ -108,10 +109,26 @@ button{
 </audio>
 
 <script>
+
+
+function toggleBGM(){
+  const bgm = document.getElementById('bgm');
+  const btn = document.getElementById('bgmBtn');
+
+  if(bgm.paused){
+    bgm.play().catch(()=>{});
+    btn.innerText = "暂停音乐 🔊";
+  }else{
+    bgm.pause();
+    btn.innerText = "播放音乐 🔇";
+  }
+}
+  
 function start(){
   document.getElementById('bg').classList.add('show');
   document.getElementById('text').classList.add('show');
   document.getElementById('final').classList.add('show');
+  
 
   document.getElementById('startBtn').style.display='none';
 
