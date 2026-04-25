@@ -72,6 +72,10 @@ button{
 
 .show{opacity:1;}
 
+#voiceBtn{
+  display:none;
+}
+
 </style>
 </head>
 
@@ -84,13 +88,16 @@ button{
 
   <img class="avatar" src="avatar.jpg">
 
-  <button onclick="start()">点一下</button>
+  <button id="startBtn" onclick="start()">点一下</button>
 
   <div class="text" id="text">希望你天天开心 🌼</div>
   <div class="final" id="final">生日快乐！</div>
+
+  <!-- 🎤 第二个按钮 -->
+  <button id="voiceBtn" onclick="playVoice()">听祝福 🎤</button>
 </div>
 
-<audio id="music" preload="auto" loop>
+<audio id="music">
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
@@ -100,9 +107,21 @@ function start(){
   document.getElementById('text').classList.add('show');
   document.getElementById('final').classList.add('show');
 
-  document.getElementById('music').play().catch(()=>{});
+  document.getElementById('startBtn').style.display='none';
 
-  document.querySelector('button').style.display='none';
+  // 显示第二按钮
+  setTimeout(()=>{
+    document.getElementById('voiceBtn').style.display='inline-block';
+  },1200);
+}
+
+function playVoice(){
+  const music = document.getElementById('music');
+
+  // 每次从头播放（不叠加）
+  music.pause();
+  music.currentTime = 0;
+  music.play().catch(()=>{});
 }
 </script>
 
