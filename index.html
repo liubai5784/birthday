@@ -1,0 +1,154 @@
+ <!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生日快乐</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* 花背景（克制版） */
+.bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url('flowers.jpg') center/cover no-repeat;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  z-index: -1;
+}
+
+.bg.show { opacity: 1; }
+
+/* 少量花瓣（降低密度） */
+.petal {
+  position: fixed;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  background: rgba(255,192,203,0.7);
+  border-radius: 50% 50% 50% 0;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+
+.container {
+  padding: 30px;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 10px auto;
+  display: block;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 20px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+}
+
+.text {
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.text.show { opacity: 1; }
+
+/* 最后一行（不夸张版） */
+.final {
+  margin-top: 20px;
+  opacity: 0;
+  font-size: 1.2em;
+  transition: opacity 1.5s ease;
+}
+
+.final.show { opacity: 1; }
+
+@media (max-width:600px) {
+  h1 { font-size: 1.6em; }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg" id="bg"></div>
+
+<div class="container">
+  <h1>理理老师</h1>
+  <img src="avatar.jpg" class="avatar">
+
+  <button onclick="start()" id="btn">点一下</button>
+
+  <div class="text" id="text">
+    像你头像里的小花一样就很好 🌼
+  </div>
+
+  <div class="final" id="final">
+    生日快乐。
+  </div>
+</div>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function start() {
+  document.getElementById('bg').classList.add('show');
+  document.getElementById('text').classList.add('show');
+  document.getElementById('music').play();
+
+  document.getElementById('btn').style.display = 'none';
+
+  createPetals();
+
+  setTimeout(()=>{
+    document.getElementById('final').classList.add('show');
+  },1500);
+}
+
+function createPetals(){
+  for(let i=0;i<10;i++){  // 数量减少
+    const p=document.createElement('div');
+    p.className='petal';
+    p.style.left=Math.random()*100+'vw';
+    p.style.animationDuration=(4+Math.random()*4)+'s';
+    document.body.appendChild(p);
+  }
+}
+</script>
+
+</body>
+</html>
